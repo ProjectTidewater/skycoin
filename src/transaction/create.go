@@ -377,7 +377,7 @@ func create(p Params, auxs coin.AddressUxOuts, headTime uint64, callCount int) (
 		inputs[i] = uxBalance
 	}
 
-	if err := verifyCreatedUnignedInvariants(p, txn, inputs); err != nil {
+	if err := verifyCreatedUnsignedInvariants(p, txn, inputs); err != nil {
 		logger.Critical().WithError(err).Error("CreateTransaction created transaction that violates invariants, aborting")
 		return nil, nil, fmt.Errorf("Created transaction that violates invariants, this is a bug: %v", err)
 	}
@@ -385,7 +385,7 @@ func create(p Params, auxs coin.AddressUxOuts, headTime uint64, callCount int) (
 	return txn, inputs, nil
 }
 
-func verifyCreatedUnignedInvariants(p Params, txn *coin.Transaction, inputs []UxBalance) error {
+func verifyCreatedUnsignedInvariants(p Params, txn *coin.Transaction, inputs []UxBalance) error {
 	if !txn.IsFullyUnsigned() {
 		return errors.New("Transaction is not fully unsigned")
 	}
